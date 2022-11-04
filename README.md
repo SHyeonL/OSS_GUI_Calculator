@@ -25,13 +25,13 @@ Please read [CONTRIBUTING.md](https://github.com/SHyeonL/OSS_GUI_Calculator/blob
 ## Authors
 
 * **studyingrabbit** - *Initial work* - [studyingrabbit](https://studyingrabbit.tistory.com/)
-* **Seungho Yoo** - *Init repository* - this repository
+* **SeongHyeon Lee** - *Init repository* - this repository
 
 See also the list of [contributors](https://github.com/SHyeonL/OSS_GUI_Calculator/blob/main/CONTRIBUTORS.md) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
