@@ -28,7 +28,7 @@ class Main(QDialog):
         button_product = QPushButton("x") #OK
         button_division = QPushButton("÷") #OK
         button_remain = QPushButton("%") #OK
-        button_root = QPushButton("√") 
+        button_root = QPushButton("√")  #OK
         button_reverse = QPushButton("1/x") #OK
         button_square = QPushButton("x²") #OK
 
