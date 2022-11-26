@@ -8,7 +8,6 @@ class Main(QDialog):
 
     def init_ui(self):
         main_layout = QVBoxLayout()
-        global temp
 
         ### 각 위젯을 배치할 레이아웃을 미리 만들어 둠
         layout_operation = QGridLayout()
@@ -39,8 +38,6 @@ class Main(QDialog):
         button_minus.clicked.connect(lambda state, operation = "-": self.button_operation_clicked(operation))
         button_product.clicked.connect(lambda state, operation = "*": self.button_operation_clicked(operation))
         button_division.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
-        button_remain.clicked.connect(lambda state, operation = "%": self.button_operation_clicked(operation))
-
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_button.addWidget(button_plus, 4, 3)
@@ -59,9 +56,8 @@ class Main(QDialog):
         button_backspace = QPushButton("←")
 
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
-        button_equal.clicked.connect(self.button_eqaul_clicked)
+        button_equal.clicked.connect(self.button_equal_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
-        button_clear_CE.clicked.connect(self.button_clear_clicked)        
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
         ### =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
@@ -109,6 +105,16 @@ class Main(QDialog):
         equation += str(num)
         self.equation.setText(equation)
 
+    def button_operation_clicked(self, operation):
+        equation = self.equation.text()
+        equation += operation
+        self.equation.setText(equation)
+
+    def button_equal_clicked(self):
+        equation = self.equation.text()
+        solution = eval(equation)
+        self.equation.setText(str(solution))
+
     def button_clear_clicked(self):
         self.equation.setText("")
 
@@ -116,19 +122,6 @@ class Main(QDialog):
         equation = self.equation.text()
         equation = equation[:-1]
         self.equation.setText(equation)
-
-    def button_operation_clicked(self, operation):
-        global temp
-        temp = self.equation.text()
-        self.equation.setText("")
-        temp += operation
-
-    def button_eqaul_clicked(self):
-        global temp
-        temp1 = self.equation.text()
-        temp += temp1
-        solution = eval(temp)
-        self.equation.setText(str(solution))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
