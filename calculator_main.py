@@ -24,14 +24,14 @@ class Main(QDialog):
         layout_equation_solution.addRow(label_equation, self.equation)
 
         ### 사칙연상 버튼 생성
-        button_plus = QPushButton("+")
-        button_minus = QPushButton("-")
-        button_product = QPushButton("x")
-        button_division = QPushButton("÷")
-        button_remain = QPushButton("%")
-        button_root = QPushButton("√")
-        button_reverse = QPushButton("1/x")
-        button_square = QPushButton("x²")
+        button_plus = QPushButton("+") #OK
+        button_minus = QPushButton("-") #OK
+        button_product = QPushButton("x") #OK
+        button_division = QPushButton("÷") #OK
+        button_remain = QPushButton("%") #OK
+        button_root = QPushButton("√")  #OK
+        button_reverse = QPushButton("1/x") #OK
+        button_square = QPushButton("x²") #OK
 
 
         ### 사칙연산 버튼을 클릭했을 때, 각 사칙연산 부호가 수식창에 추가될 수 있도록 시그널 설정
@@ -40,7 +40,9 @@ class Main(QDialog):
         button_product.clicked.connect(lambda state, operation = "*": self.button_operation_clicked(operation))
         button_division.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
         button_remain.clicked.connect(lambda state, operation = "%": self.button_operation_clicked(operation))
-
+        button_reverse.clicked.connect(lambda state, exponent = "-1": self.buttoon_clicked_expoenet(exponent))
+        button_square.clicked.connect(lambda state, exponent = "2" : self.buttoon_clicked_expoenet(exponent))
+        button_root.clicked.connect(lambda state, exponent = "(1/2)": self.buttoon_clicked_expoenet(exponent))
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_button.addWidget(button_plus, 4, 3)
@@ -59,7 +61,7 @@ class Main(QDialog):
         button_backspace = QPushButton("←")
 
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
-        button_equal.clicked.connect(self.button_eqaul_clicked)
+        button_equal.clicked.connect(self.button_equal_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
         button_clear_CE.clicked.connect(self.button_clear_clicked)        
         button_backspace.clicked.connect(self.button_backspace_clicked)
@@ -128,6 +130,14 @@ class Main(QDialog):
         temp1 = self.equation.text()
         temp += temp1
         solution = eval(temp)
+        self.equation.setText(str(solution))
+        
+    def buttoon_clicked_expoenet(self, exponent):
+        equation = '(' + self.equation.text()
+        equation += "**"
+        equation += exponent
+        equation += ')'
+        solution = eval(equation)
         self.equation.setText(str(solution))
 
 if __name__ == '__main__':
