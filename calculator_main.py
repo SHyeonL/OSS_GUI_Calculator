@@ -8,6 +8,7 @@ class Main(QDialog):
 
     def init_ui(self):
         main_layout = QVBoxLayout()
+        global temp
 
         ### 각 위젯을 배치할 레이아웃을 미리 만들어 둠
         layout_operation = QGridLayout()
@@ -23,14 +24,14 @@ class Main(QDialog):
         layout_equation_solution.addRow(label_equation, self.equation)
 
         ### 사칙연상 버튼 생성
-        button_plus = QPushButton("+") #OK
-        button_minus = QPushButton("-") #OK
-        button_product = QPushButton("x") #OK
-        button_division = QPushButton("÷") #OK
-        button_remain = QPushButton("%") #OK
-        button_root = QPushButton("√")  #OK
-        button_reverse = QPushButton("1/x") #OK
-        button_square = QPushButton("x²") #OK
+        button_plus = QPushButton("+")
+        button_minus = QPushButton("-")
+        button_product = QPushButton("x")
+        button_division = QPushButton("÷")
+        button_remain = QPushButton("%")
+        button_root = QPushButton("√")
+        button_reverse = QPushButton("1/x")
+        button_square = QPushButton("x²")
 
 
         ### 사칙연산 버튼을 클릭했을 때, 각 사칙연산 부호가 수식창에 추가될 수 있도록 시그널 설정
@@ -39,9 +40,7 @@ class Main(QDialog):
         button_product.clicked.connect(lambda state, operation = "*": self.button_operation_clicked(operation))
         button_division.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
         button_remain.clicked.connect(lambda state, operation = "%": self.button_operation_clicked(operation))
-        button_reverse.clicked.connect(lambda state, exponent = "-1": self.buttoon_clicked_expoenet(exponent))
-        button_square.clicked.connect(lambda state, exponent = "2" : self.buttoon_clicked_expoenet(exponent))
-        button_root.clicked.connect(lambda state, exponent = "(1/2)": self.buttoon_clicked_expoenet(exponent))
+
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_button.addWidget(button_plus, 4, 3)
@@ -60,8 +59,9 @@ class Main(QDialog):
         button_backspace = QPushButton("←")
 
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
-        button_equal.clicked.connect(self.button_equal_clicked)
+        button_equal.clicked.connect(self.button_eqaul_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
+        button_clear_CE.clicked.connect(self.button_clear_clicked)        
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
         ### =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
@@ -109,16 +109,6 @@ class Main(QDialog):
         equation += str(num)
         self.equation.setText(equation)
 
-    def button_operation_clicked(self, operation):
-        equation = self.equation.text()
-        equation += operation
-        self.equation.setText(equation)
-
-    def button_equal_clicked(self):
-        equation = self.equation.text()
-        solution = eval(equation)
-        self.equation.setText(str(solution))
-
     def button_clear_clicked(self):
         self.equation.setText("")
 
@@ -127,12 +117,17 @@ class Main(QDialog):
         equation = equation[:-1]
         self.equation.setText(equation)
 
-    def buttoon_clicked_expoenet(self, exponent):
-        equation = '(' + self.equation.text()
-        equation += "**"
-        equation += exponent
-        equation += ')'
-        solution = eval(equation)
+    def button_operation_clicked(self, operation):
+        global temp
+        temp = self.equation.text()
+        self.equation.setText("")
+        temp += operation
+
+    def button_eqaul_clicked(self):
+        global temp
+        temp1 = self.equation.text()
+        temp += temp1
+        solution = eval(temp)
         self.equation.setText(str(solution))
 
 if __name__ == '__main__':
