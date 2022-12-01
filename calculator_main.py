@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 
 class Main(QDialog):
+    global equation_temp
     def __init__(self):
         super().__init__()
         self.init_ui()
@@ -99,13 +100,15 @@ class Main(QDialog):
         self.input_output.setText(equation)
 
     def button_operation_clicked(self, operation):
-        equation = self.input_output.text()
-        equation += operation
-        self.input_output.setText(equation)
+        global equation_temp
+        equation_temp = self.input_output.text()
+        equation_temp += operation
+        self.input_output.setText("")
 
     def button_equal_clicked(self):
-        equation = self.input_output.text()
-        solution = eval(equation)
+        global equation_temp
+        equation_temp += self.input_output.text()
+        solution = eval(equation_temp)
         self.input_output.setText(str(solution))
 
     def button_clear_clicked(self):
