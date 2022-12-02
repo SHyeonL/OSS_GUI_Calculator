@@ -31,7 +31,7 @@ class Main(QDialog):
         button_reverse = QPushButton("1/x")
         button_square = QPushButton("x²")
 
-        # 사칙연산 버튼을 클릭했을 때, 각 사칙연산 부호가 수식창에 추가될 수 있도록 시그널 설정
+        # 사칙연산 버튼을 클릭했을 때, 각 사칙연산 부호에 맞게 실행됨
         button_plus.clicked.connect(
             lambda state, operation="+": self.button_operation_clicked(operation))
         button_minus.clicked.connect(
@@ -49,7 +49,7 @@ class Main(QDialog):
         button_reverse.clicked.connect(
             lambda state, operation="reverse": self.button_operation_direct(operation))
 
-        # 사칙연산 버튼을 layout_operation 레이아웃에 추가
+        # 사칙연산 버튼을 layout_button 레이아웃에 추가
         layout_button.addWidget(button_plus, 4, 3)
         layout_button.addWidget(button_minus, 3, 3)
         layout_button.addWidget(button_product, 2, 3)
@@ -59,25 +59,25 @@ class Main(QDialog):
         layout_button.addWidget(button_reverse, 1, 0)
         layout_button.addWidget(button_square, 1, 1)
 
-        # =, clear, backspace 버튼 생성
+        # =, C, CE, BackSpace 버튼 생성
         button_equal = QPushButton("=")
         button_clear = QPushButton("C")
         button_clear_CE = QPushButton("CE")
         button_backspace = QPushButton("←")
 
-        # =, clear, backspace 버튼 클릭 시 시그널 설정
+        # =, C, CE, BackSpace 버튼 클릭 시 시그널 설정
         button_equal.clicked.connect(self.button_equal_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
         button_clear_CE.clicked.connect(self.button_clear_clicked)
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
-        # =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
+        # =, C, CE, BackSpace 버튼을 layout_button 레이아웃에 추가
         layout_button.addWidget(button_clear, 0, 2)
         layout_button.addWidget(button_clear_CE, 0, 1)
         layout_button.addWidget(button_backspace, 0, 3)
         layout_button.addWidget(button_equal, 5, 3)
 
-        # 숫자 버튼 생성하고, layout_number 레이아웃에 추가
+        # 숫자 버튼 생성하고, layout_button 레이아웃에 추가
         # 각 숫자 버튼을 클릭했을 때, 숫자가 수식창에 입력 될 수 있도록 시그널 설정
         number_button_dict = {}
         for number in range(0, 10):
@@ -111,16 +111,19 @@ class Main(QDialog):
     #################
     ### functions ###
     #################
+    # 숫자 버튼을 클릭하였을 때 실행되는 함수
     def number_button_clicked(self, num):
         equation = self.input_output.text()
         equation += str(num)
         self.input_output.setText(equation)
 
+    # 피연산자가 2개인 연산의 경우 실행되는 함수 (+, -, /, % 등등..)
     def button_operation_clicked(self, operation):
         self.number = (float(self.input_output.text()))
         self.operation = operation
         self.input_output.setText("")
 
+    # 피연산자가 1개인 연산의 경우 실행되는 함수
     def button_operation_direct(self, operation):
         self.number = (float(self.input_output.text()))
         self.operation = operation
@@ -131,8 +134,8 @@ class Main(QDialog):
         elif self.operation == 'reverse':
             soultion = self.number ** -1
         self.input_output.setText(str(soultion))
-        # elif self.
 
+    # = 버튼을 클릭하였을 때 연산자에 맞게 계산이 실행됨
     def button_equal_clicked(self):
         temp_number = (float(self.input_output.text()))
         if self.operation == '+':
@@ -147,9 +150,11 @@ class Main(QDialog):
             solution = self.number % temp_number
         self.input_output.setText(str(solution))
 
+    # C, CE 버튼 클릭 시 실행되는 함수
     def button_clear_clicked(self):
         self.input_output.setText("")
 
+    # BackSpace 버튼 클릭 시 실행되는 함수
     def button_backspace_clicked(self):
         equation = self.input_output.text()
         equation = equation[:-1]
