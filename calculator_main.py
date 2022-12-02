@@ -2,12 +2,13 @@ import sys
 from PyQt5.QtWidgets import *
 
 class Main(QDialog):
-    global equation_temp
     def __init__(self):
         super().__init__()
         self.init_ui()
 
     def init_ui(self):
+        self.number = 0
+        self.operation = ""
         main_layout = QVBoxLayout()
 
         ### 각 위젯을 배치할 레이아웃을 미리 만들어 둠
@@ -54,6 +55,7 @@ class Main(QDialog):
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
         button_equal.clicked.connect(self.button_equal_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
+        button_clear_CE.clicked.connect(self.button_clear_clicked)
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
         ### =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
@@ -100,15 +102,20 @@ class Main(QDialog):
         self.input_output.setText(equation)
 
     def button_operation_clicked(self, operation):
-        global equation_temp
-        equation_temp = self.input_output.text()
-        equation_temp += operation
+        self.number = (float(self.input_output.text()))
+        self.operation = operation
         self.input_output.setText("")
 
     def button_equal_clicked(self):
-        global equation_temp
-        equation_temp += self.input_output.text()
-        solution = eval(equation_temp)
+        temp_number = (float(self.input_output.text()))
+        if self.operation == '+' :
+            solution = self.number + temp_number
+        elif self.operation == '-' :
+            solution = self.number - temp_number
+        elif self.operation == '*' :
+            solution = self.number * temp_number
+        elif self.operation == '/' :
+            solution = self.number / temp_number
         self.input_output.setText(str(solution))
 
     def button_clear_clicked(self):
